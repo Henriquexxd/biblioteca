@@ -96,6 +96,7 @@ public class TelaLogin extends JFrame {
 					MenuPrincipal menu = new MenuPrincipal(usuarioAutenticado);
 					menu.setVisible(true);
 					dispose();
+					String nome = textFieldLogin.getText();
 						
 				
 			}
