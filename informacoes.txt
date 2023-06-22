@@ -1,0 +1,16 @@
+Cadastro de Leitor:
+nome, cpf, telefone, endereco(estado, cidade, bairro, CEP, rua, numero), data cadastro, login, senha
+
+Cadastro administrador:
+nome, cpf, telefone, endereco(estado, cidade, bairro, CEP, rua, numero), data cadastro, login, senha
+
+Cadastro livros:
+titulo, subtitulo, editora, ISBN, data cadastro,
+
+
+Cadastro editora:
+nome editora, cnpj, telefone, endereco(pais, estado, cidade, bairro, CEP, rua, numero), data cadastro
+
+
+
+
