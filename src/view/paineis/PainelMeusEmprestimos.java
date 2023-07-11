@@ -52,6 +52,8 @@ public class PainelMeusEmprestimos extends JPanel {
 		add(tableMeusEmprestimos);
 		
 		btnConsultar = new JButton("CONSULTAR");
+		btnConsultar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnConsultar.setBackground(new Color(0, 221, 221));
 		btnConsultar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -64,6 +66,8 @@ public class PainelMeusEmprestimos extends JPanel {
 		add(btnConsultar);
 		
 		btnDevolucao = new JButton("DEVOLU\u00C7\u00C3O");
+		btnDevolucao.setBackground(new Color(0, 221, 221));
+		btnDevolucao.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnDevolucao.setBounds(274, 375, 148, 23);
 		add(btnDevolucao);	
 	}
