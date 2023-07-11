@@ -62,7 +62,7 @@ public class PainelCadastroUsuario extends JPanel {
 	private MaskFormatter mascaraTelefone;
 	private MaskFormatter mascaraCep;
 	private JRadioButton rdbtnAdministrador;
-
+	TipoUsuarioVO adm = null;
 	/**
 	 * Create the panel.
 	 * @throws ParseException 
@@ -239,9 +239,14 @@ public class PainelCadastroUsuario extends JPanel {
 		rdbtnAdministrador = new JRadioButton("ADMINISTRADOR");
 		rdbtnAdministrador.setFont(new Font("Tahoma", Font.BOLD, 11));
 		rdbtnAdministrador.setForeground(new Color(64, 0, 0));
+		
 		rdbtnAdministrador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(rdbtnAdministrador.isSelected()) {
+					adm = TipoUsuarioVO.getTipoUsuarioVOPorValor(1);
+				}else {
+					adm=TipoUsuarioVO.getTipoUsuarioVOPorValor(2);
+				}				
 			}
 		});
 		rdbtnAdministrador.setBackground(new Color(0, 221, 221));
@@ -266,10 +271,25 @@ public class PainelCadastroUsuario extends JPanel {
 				
 				novoUsuario.setNome(textFieldNome.getText());
 				novoUsuario.setCpf(cpfSemMascara);
+
+				TipoUsuarioVO tipoUsuarioVO = adm;
+				novoUsuario.setTipoUsuario(tipoUsuarioVO);
 				novoUsuario.setTelefone(telefoneSemMascara);
 				novoUsuario.setDtCadastro(dataCadastro.getDate());
 				novoUsuario.setLogin(textFieldLogin.getText());
 				novoUsuario.setSenha(textFieldSenha.getText());
+				
+				novoEndereco.setPais(textFieldPais.getText());
+				novoEndereco.setEstado(textFieldEstado.getText());
+				novoEndereco.setCidade(textFieldCidade.getText());
+				novoEndereco.setBairro(textFieldBairro.getText());
+				novoEndereco.setCep(cepSemMascara);
+				novoEndereco.setRua(textFieldRua.getText());
+				novoEndereco.setNumero(textFieldNumero.getText());
+				
+				novoUsuario.setEnderecoVO(novoEndereco);
+				
+				
 				
 				try {
 					novoUsuario = usuarioController.inserirNovoUsuarioController(novoUsuario);
