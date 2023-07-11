@@ -78,6 +78,7 @@ public class TelaLogin extends JFrame {
 		textFieldSenha.setColumns(10);
 		
 		btnEntrar = new JButton("ENTRAR");
+		btnEntrar.setBackground(new Color(0, 221, 221));
 		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnEntrar.addActionListener(new ActionListener() {
 			 
@@ -119,6 +120,7 @@ public class TelaLogin extends JFrame {
 		getContentPane().add(btnEntrar);
 		
 		btnSair = new JButton("SAIR");
+		btnSair.setBackground(new Color(0, 221, 221));
 		btnSair.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

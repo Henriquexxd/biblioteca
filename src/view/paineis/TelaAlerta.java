@@ -50,11 +50,13 @@ public class TelaAlerta extends JDialog {
 		setLocationRelativeTo(null);
 		
 		lblAlerta = new JLabel(mensagem);
-		lblAlerta.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblAlerta.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		lblAlerta.setBounds(10, 101, 414, 77);
 		contentPanel.add(lblAlerta);
 		
 		btnNewButton = new JButton("OK");
+		btnNewButton.setBackground(new Color(0, 221, 221));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaAlerta.this.dispose();

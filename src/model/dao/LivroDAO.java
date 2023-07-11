@@ -69,7 +69,8 @@ public class LivroDAO {
 				livros.add(livroBuscado);
 			}
 		}catch (Exception e) {
-			System.out.println("Erro ao buscar todos os Livros. \n Causa: "+e.getMessage());
+			System.out.println("Erro ao buscar todos os Livros. "
+					+ "\n Causa: "+e.getMessage());
 		}finally {
 			Banco.closePreparedStatement(query);
 			Banco.closeConnection(conn);
@@ -88,6 +89,7 @@ public class LivroDAO {
 		livroBuscado.setIsbn(resultado.getString("isbn"));
 		livroBuscado.setAutor(resultado.getString("autor"));
 		livroBuscado.setDtCadastro(resultado.getDate("dtcadastro").toLocalDate());
+		livroBuscado.setAnoPublicacao(resultado.getInt("anopublicacao"));
 		
 		int idGeneroDoLivro = resultado.getInt("idgenero");
 		GeneroDAO generoDAO = new GeneroDAO();

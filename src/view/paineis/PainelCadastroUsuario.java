@@ -297,6 +297,8 @@ public class PainelCadastroUsuario extends JPanel {
 					TelaAlerta alerta = new TelaAlerta("erro: " +e1.getMessage());
 					alerta.setVisible(true);
 				}
+				TelaAlerta alerta = new TelaAlerta("USUARIO CADASTRADO COM SUCESSO.");
+				alerta.setVisible(true);
 			}
 		});
 		btnCadastrar.setBounds(272, 584, 204, 23);

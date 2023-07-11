@@ -84,7 +84,7 @@ public class UsuarioDAO {
 		try {
 			query.setString(1, novoUsuario.getNome());
 			query.setString(2, novoUsuario.getCpf());
-			query.setInt(3, novoUsuario.getEnderecoVO().getIdEndereco());
+			query.setInt(3, novoUsuario.getEnderecoVO().getIdEndereco());			
 			query.setInt(4, novoUsuario.getTipoUsuario().getValor());
 			query.setString(5, novoUsuario.getTelefone());
 			query.setObject(6, java.sql.Date.valueOf(novoUsuario.getDtCadastro()));
@@ -178,7 +178,7 @@ public class UsuarioDAO {
 		UsuarioVO usuarioBuscado = new UsuarioVO();
 		
 		usuarioBuscado.setIdUsuario(resultado.getInt("idusuario"));
-		//usuarioBuscado.setTipoUsuario(resultado.getInt(""));
+		usuarioBuscado.setTipoUsuario(TipoUsuarioVO.getTipoUsuarioVOPorValor(resultado.getInt("idtipousuario")));
 		usuarioBuscado.setNome(resultado.getString("nome"));
 		usuarioBuscado.setCpf(resultado.getString("cpf"));
 		usuarioBuscado.setTelefone(resultado.getString("telefone"));
