@@ -11,6 +11,7 @@ import javax.swing.text.MaskFormatter;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
+import controller.EnderecoController;
 import controller.UsuarioController;
 import exception.CamposInvalidosException;
 import model.vo.EnderecoVO;
@@ -255,6 +256,7 @@ public class PainelCadastroUsuario extends JPanel {
 				UsuarioController usuarioController = new UsuarioController();
 				EnderecoController enderecoController = new EnderecoController();
 				UsuarioVO novoUsuario = new UsuarioVO();
+				EnderecoVO novoEndereco = new EnderecoVO();
 				
 				String cpfSemMascara = textFieldCpf.getText()
 						.replace(".", "").replace("-", "");
