@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import java.awt.Font;
 
 public class TelaAlerta extends JDialog {
 
@@ -36,7 +37,7 @@ public class TelaAlerta extends JDialog {
 	 * Create the dialog.
 	 */
 	public TelaAlerta(String mensagem) {
-		setTitle("Aten\u00E7\u00E3o!");
+		setTitle("ATENÇÃO !");
 		
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -49,6 +50,7 @@ public class TelaAlerta extends JDialog {
 		setLocationRelativeTo(null);
 		
 		lblAlerta = new JLabel(mensagem);
+		lblAlerta.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblAlerta.setBounds(10, 101, 414, 77);
 		contentPanel.add(lblAlerta);
 		
@@ -58,12 +60,17 @@ public class TelaAlerta extends JDialog {
 				TelaAlerta.this.dispose();
 			}
 		});
-		btnNewButton.setBounds(166, 215, 89, 23);
+		btnNewButton.setBounds(174, 214, 89, 23);
 		contentPanel.add(btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\henrique.martins\\Desktop\\DD-VILMAR\\PROJETOS\\trabalhoBiblioteca\\src\\icons\\iconAlerta.png"));
-		lblNewLabel.setBounds(190, 11, 65, 52);
+		JLabel lblIconAlerta = new JLabel("New label");
+		lblIconAlerta.setIcon(new ImageIcon(TelaAlerta.class.getResource("/icons/iconAlerta.png")));
+		lblIconAlerta.setBounds(190, 11, 65, 52);
+		contentPanel.add(lblIconAlerta);
+		
+		JLabel lblNewLabel = new JLabel("ATENÇÃO !");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(174, 74, 108, 34);
 		contentPanel.add(lblNewLabel);
 	}
 }

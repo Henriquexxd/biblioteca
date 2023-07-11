@@ -1,40 +1,39 @@
 package view;
 
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
 
 import model.vo.UsuarioVO;
 import view.paineis.PainelCadastroEditora;
-import view.paineis.PainelCadastroUsuario;
-import view.paineis.PainelEmprestimos;
-import view.paineis.PainelMeusEmprestimos;
-import view.paineis.TelaLogin;
-import view.paineis.PainelEmprestimoConsultar;
 import view.paineis.PainelCadastroLivro;
-
-import com.jgoodies.forms.layout.FormSpecs;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Container;
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import view.paineis.PainelCadastroUsuario;
+import view.paineis.PainelConsultar;
+import view.paineis.PainelEmprestimoConsultar;
+import view.paineis.PainelMeusEmprestimos;
+import view.paineis.PainelRelatorioLivrosAutor;
+import view.paineis.PainelRelatorioLivrosCadastrados;
+import view.paineis.PainelRelatorioLivrosEditora;
+import view.paineis.PainelRelatorioLivrosGenero;
+import view.paineis.PainelRelatorioUsuarios;
+import view.paineis.PainelSobreSistema;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.text.ParseException;
 
 public class MenuPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private JMenu mnCadastro;
-	private JMenuItem mntmCadastrarLeitro;
+	private JMenuItem mntmCadastrarUsuario;
 	private JMenuItem mntmCadastrarLivros;
 	private JMenuItem mntmCadastrarEditora;
 	private JMenu mnEmprestimos;
@@ -55,46 +54,74 @@ public class MenuPrincipal extends JFrame {
 	private PainelCadastroUsuario painelCadastroLeitor;
 	private PainelCadastroEditora painelCadastroEditora;
 	private PainelCadastroLivro painelCadastroLivro;
-	private PainelMeusEmprestimos painelEmprestimosNovo;
-	private PainelEmprestimos painelEmprestimos;
 	private PainelEmprestimoConsultar painelEmprestimoConsultar;
+	private PainelSobreSistema painelSobreSistema;
+	private PainelMeusEmprestimos painelMeusEmprestimos;
+	private PainelConsultar painelConsultar;
+	private PainelRelatorioLivrosCadastrados painelRelatorioLivrosCadastrados;
+	private PainelRelatorioLivrosAutor painelRelatorioLivrosAutor;
+	private PainelRelatorioLivrosGenero painelRelatorioLivrosGenero;
+	private PainelRelatorioLivrosEditora painelRelatorioLivrosEditora;
+	private PainelRelatorioUsuarios painelRelatorioUsuarios;
 	
 	private UsuarioVO usuarioAutenticado;
-	private JMenuItem mntmNewMenuItem;
+	private JMenuItem mntmConsultar;
+	private JMenuItem mntmRelatorioDeUsuarios;
 	
 	/**
 	 * Create the frame.
 	 */
 	public MenuPrincipal(UsuarioVO usuario) {
+		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuPrincipal.class.getResource("/icons/iconMenuPrincipalBarra.png")));
+		setTitle("Menu Principal - Bem-vindo, " + usuario.getNome() + " (" + usuario.getTipoUsuario().toString() + ")");
 		this.usuarioAutenticado = usuario;
+		if(usuario.getTipoUsuario().toString().equalsIgnoreCase("USUARIO")) {
+			System.out.println("HENRIQUE E BRABO");			
+		}
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 475, 617);
+		setBounds(100, 100, 700, 682);		
 		setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		mnCadastro = new JMenu("CADASTROS");
-		menuBar.add(mnCadastro);
-		
-		mntmCadastrarLeitro = new JMenuItem("Cadastrar Usu\u00E1rio");
-		mntmCadastrarLeitro.addActionListener(new ActionListener() {
-			
-
-			public void actionPerformed(ActionEvent e) {
-				painelCadastroLeitor = new PainelCadastroUsuario();
-				setContentPane(painelCadastroLeitor);
-				revalidate();
+		mnCadastro.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
 				
 			}
 		});
-		mnCadastro.add(mntmCadastrarLeitro);
+		menuBar.add(mnCadastro);
+		
+		mntmCadastrarUsuario = new JMenuItem("Cadastrar Usuário");
+		mntmCadastrarUsuario.addActionListener(new ActionListener() {
+			
+
+			public void actionPerformed(ActionEvent e) {
+				try {
+					painelCadastroLeitor = new PainelCadastroUsuario();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				setContentPane(painelCadastroLeitor);
+				revalidate();
+			}
+		});
+		mnCadastro.add(mntmCadastrarUsuario);
 		
 		mntmCadastrarLivros = new JMenuItem("Cadastrar Livros");
 		mntmCadastrarLivros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				painelCadastroLivro = new PainelCadastroLivro();
+				try {
+					painelCadastroLivro = new PainelCadastroLivro();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				setContentPane(painelCadastroLivro);
 				revalidate();
 			}
@@ -105,27 +132,34 @@ public class MenuPrincipal extends JFrame {
 		mntmCadastrarEditora = new JMenuItem("Cadastrar Editora");
 		mntmCadastrarEditora.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				painelCadastroEditora = new PainelCadastroEditora();
+				try {
+					painelCadastroEditora = new PainelCadastroEditora();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				setContentPane(painelCadastroEditora);
 				revalidate();
 			}
 		});
 		mnCadastro.add(mntmCadastrarEditora);
 		
-		mnEmprestimos = new JMenu("EMPRESTIMOS");
+		mnEmprestimos = new JMenu("EMPRÉSTIMOS");
 		menuBar.add(mnEmprestimos);
 		
-		mntmMeusEmprestimos = new JMenuItem("Meus Empr\u00E9stimos");
+		mntmMeusEmprestimos = new JMenuItem("Meus Empréstimos");
 		mntmMeusEmprestimos.addActionListener(new ActionListener() {
+			
+
 			public void actionPerformed(ActionEvent e) {
-				painelEmprestimos = new PainelEmprestimos();
-				setContentPane(painelEmprestimos);
+				painelMeusEmprestimos = new PainelMeusEmprestimos();
+				setContentPane (painelMeusEmprestimos);
 				revalidate();
 			}
 		});
 		mnEmprestimos.add(mntmMeusEmprestimos);
 		
-		mntmConsultarEmprestimo = new JMenuItem("Consultar Empr\u00E9stimo");
+		mntmConsultarEmprestimo = new JMenuItem("Consultar Empréstimo");
 		mntmConsultarEmprestimo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				painelEmprestimoConsultar = new PainelEmprestimoConsultar();
@@ -138,79 +172,105 @@ public class MenuPrincipal extends JFrame {
 		mnConsultas = new JMenu("CONSULTAS");
 		menuBar.add(mnConsultas);
 		
-		mntmNewMenuItem = new JMenuItem("CONSULTAR");
-		mnConsultas.add(mntmNewMenuItem);
+		mntmConsultar = new JMenuItem("CONSULTAR");
+		mntmConsultar.addActionListener(new ActionListener() {			
+
+			public void actionPerformed(ActionEvent e) {
+				painelConsultar = new PainelConsultar();
+				setContentPane(painelConsultar);
+				revalidate();
+			}
+		});
+		mnConsultas.add(mntmConsultar);
 		
-		mnRelatorios = new JMenu("RELATORIOS");
+		mnRelatorios = new JMenu("RELATÓRIOS");		
 		menuBar.add(mnRelatorios);
 		
-		mntmRelatorioLivrosCadastrados = new JMenuItem("Relat\u00F3rio de Livros Cadastrados");
+		mntmRelatorioLivrosCadastrados = new JMenuItem("Relatório de Livros Cadastrados");
+		mntmRelatorioLivrosCadastrados.addActionListener(new ActionListener() {
+			
+
+			public void actionPerformed(ActionEvent e) {
+				painelRelatorioLivrosCadastrados = new PainelRelatorioLivrosCadastrados();
+				setContentPane(painelRelatorioLivrosCadastrados);
+				revalidate();
+			}
+		});
 		mnRelatorios.add(mntmRelatorioLivrosCadastrados);
 		
-		mntmRelatorioLivrosPorAutor = new JMenuItem("Relat\u00F3rio de Livros por Autor");
+		mntmRelatorioLivrosPorAutor = new JMenuItem("Relatório de Livros por Autor");
+		mntmRelatorioLivrosPorAutor.addActionListener(new ActionListener() {
+			
+
+			public void actionPerformed(ActionEvent e) {
+				painelRelatorioLivrosAutor = new PainelRelatorioLivrosAutor();
+				setContentPane(painelRelatorioLivrosAutor);
+				revalidate();
+			}
+		});
 		mnRelatorios.add(mntmRelatorioLivrosPorAutor);
 		
-		mntmRelatorioLivrosPorGenero = new JMenuItem("Relat\u00F3rio de Livros por G\u00EAnero");
+		mntmRelatorioLivrosPorGenero = new JMenuItem("Relatório de Livros por Gênero");
+		mntmRelatorioLivrosPorGenero.addActionListener(new ActionListener() {
+			
+
+			public void actionPerformed(ActionEvent e) {
+				painelRelatorioLivrosGenero = new PainelRelatorioLivrosGenero();
+				setContentPane(painelRelatorioLivrosGenero);
+				revalidate();
+			}
+		});
 		mnRelatorios.add(mntmRelatorioLivrosPorGenero);
 		
-		mntmRelatorioLivrosPorEditora = new JMenuItem("Relat\u00F3rio de Livros por Editora");
+		mntmRelatorioLivrosPorEditora = new JMenuItem("Relatório de Livros por Editora");
+		mntmRelatorioLivrosPorEditora.addActionListener(new ActionListener() {			
+
+			public void actionPerformed(ActionEvent e) {
+				painelRelatorioLivrosEditora = new PainelRelatorioLivrosEditora();
+				setContentPane(painelRelatorioLivrosEditora);
+			}
+		});
 		mnRelatorios.add(mntmRelatorioLivrosPorEditora);
+		
+		mntmRelatorioDeUsuarios = new JMenuItem("Relat\u00F3rio de Usu\u00E1rios");
+		mntmRelatorioDeUsuarios.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				painelRelatorioUsuarios = new PainelRelatorioUsuarios();
+				setContentPane(painelRelatorioUsuarios);
+				revalidate();
+			}
+		});
+		mnRelatorios.add(mntmRelatorioDeUsuarios);
 		
 		mnSair = new JMenu("SAIR");
 		menuBar.add(mnSair);
 		
 		mntmSobreSistema = new JMenuItem("Sobre o Sistema");
+		mntmSobreSistema.addActionListener(new ActionListener() {			
+
+			public void actionPerformed(ActionEvent e) {
+				painelSobreSistema = new PainelSobreSistema();
+				setContentPane(painelSobreSistema);
+				revalidate();				
+			}
+		});
 		mnSair.add(mntmSobreSistema);
 		
 		mntmSair = new JMenuItem("Sair");
+		mntmSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		mnSair.add(mntmSair);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(0, 128, 0));
+		contentPane.setBackground(new Color(128, 64, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		setContentPane(contentPane);
-		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
+		contentPane.setLayout(null);
 		
 		//TODO verificar as permissoes do usuario autenticado e mostrar / esconder os componenetes
 	}
-
 }

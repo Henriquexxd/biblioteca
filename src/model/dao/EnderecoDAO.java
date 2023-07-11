@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import model.vo.EnderecoVO;
 
@@ -46,4 +47,38 @@ public class EnderecoDAO {
 		enderecoBuscado.setNumero(resultado.getString("numero"));		
 		return enderecoBuscado;		
 	}
+	
+	public EnderecoVO inserirNovoEnderecoDAO(EnderecoVO novoEndereco) {
+		
+		Connection conexao = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conexao);
+		
+		String sql = "INSERT INTO ENDERECO (PAIS, ESTADO, CIDADE, BAIRRO, CEP, RUA, NUMERO)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement query = Banco.getPreparedStatementWithPk(conexao, sql);
+		try {
+			query.setString(1, novoEndereco.getPais());
+			query.setString(2, novoEndereco.getEstado());
+			query.setString(3, novoEndereco.getCidade());
+			query.setString(4, novoEndereco.getBairro());
+			query.setString(5, novoEndereco.getCep());
+			query.setString(6, novoEndereco.getRua());
+			query.setString(7, novoEndereco.getNumero());
+			query.execute();
+			ResultSet resultado = query.getGeneratedKeys();
+			if(resultado.next()) {
+				novoEndereco.setIdEndereco(resultado.getInt(1));
+			}
+			
+		}catch(SQLException e){
+			System.out.println("Erro ao inserir novo Endereco.");
+			System.out.println("Erro: " +e.getMessage());
+		}finally {
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conexao);
+		}
+		
+		return novoEndereco;
+	}
+	
 }

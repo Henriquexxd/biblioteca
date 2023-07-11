@@ -1,28 +1,26 @@
 package view.paineis;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JTextField;
-
-import controller.LivroController;
-import controller.UsuarioController;
-import model.vo.EditoraVO;
-import model.vo.GeneroVO;
-import model.vo.LivroVO;
-import model.vo.UsuarioVO;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Formatter;
-import java.awt.event.ActionEvent;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
+
+import com.github.lgooddatepicker.components.DatePicker;
+
+import controller.LivroController;
+import exception.CamposInvalidosException;
+import model.vo.LivroVO;
 
 public class PainelCadastroLivro extends JPanel {
-	private JTextField textFieldDataCadastro; //TODO trocar para DatePicker
+	private DatePicker dpDataCadastro; 
 	private JTextField textFieldIsbn;
 	private JTextField textFieldSubtitulo;
 	private JTextField textFieldTitulo;
@@ -34,135 +32,156 @@ public class PainelCadastroLivro extends JPanel {
 	private JLabel lblDataCadastro;
 	private JLabel lblEditora;	
 	private JLabel lblAutor;
-	private JLabel lblAno;
 	private JTextField textFieldAutor;
-	private JTextField textFieldAno;
 	private JTextField textFieldAnoPublicacao;
 	private JLabel lblAnoPublicacao;
+	private JTextField textFieldGenero;
+	private MaskFormatter mascaraIsbn;
+	private JTextField textFieldQtdTotal;
 	
 
 	/**
 	 * Create the panel.
+	 * @throws ParseException 
 	 */
-	public PainelCadastroLivro() {
+	public PainelCadastroLivro() throws ParseException {
 		setBackground(new Color(255, 128, 0));
 		setLayout(null);
 		
-		lblNewLabel = new JLabel("Cadastro Livro");
+		lblNewLabel = new JLabel("CADASTRAR LIVRO");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(157, 32, 174, 29);
+		lblNewLabel.setBounds(266, 33, 190, 29);
 		add(lblNewLabel);
 		
 		lblTitulo = new JLabel("T\u00EDtulo:");
-		lblTitulo.setBounds(28, 92, 89, 14);
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblTitulo.setBounds(172, 102, 89, 14);
 		add(lblTitulo);
 		
 		lblSubtitulo = new JLabel("Subt\u00EDtulo:");
-		lblSubtitulo.setBounds(28, 128, 89, 14);
+		lblSubtitulo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblSubtitulo.setBounds(172, 140, 89, 14);
 		add(lblSubtitulo);
 		
 		lblIsbn = new JLabel("ISBN:");
-		lblIsbn.setBounds(28, 199, 89, 14);
+		lblIsbn.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblIsbn.setBounds(173, 244, 89, 14);
 		add(lblIsbn);
 		
 		lblDataCadastro = new JLabel("Data Cadastro:");
-		lblDataCadastro.setBounds(28, 353, 89, 14);
+		lblDataCadastro.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblDataCadastro.setBounds(172, 382, 89, 14);
 		add(lblDataCadastro);
 		
-		textFieldDataCadastro = new JTextField();
-		textFieldDataCadastro.setBounds(124, 347, 196, 20);
-		add(textFieldDataCadastro);
-		textFieldDataCadastro.setColumns(10);
+		dpDataCadastro = new DatePicker();
+		dpDataCadastro.getComponentToggleCalendarButton().setBackground(new Color(0, 221, 221));
+		dpDataCadastro.getComponentDateTextField().setBackground(new Color(0, 221, 221));
+		dpDataCadastro.setBounds(274, 380, 196, 20);
+		add(dpDataCadastro);
 		
-		textFieldIsbn = new JTextField();
-		textFieldIsbn.setBounds(124, 193, 196, 20);
+		mascaraIsbn = new MaskFormatter("###-#-##-######-#");
+		mascaraIsbn.setValueContainsLiteralCharacters(false);
+		textFieldIsbn = new JFormattedTextField(mascaraIsbn);
+		textFieldIsbn.setBackground(new Color(0, 221, 221));
+		textFieldIsbn.setBounds(274, 238, 196, 20);
 		add(textFieldIsbn);
 		textFieldIsbn.setColumns(10);
 		
 		textFieldSubtitulo = new JTextField();
-		textFieldSubtitulo.setBounds(124, 122, 196, 20);
+		textFieldSubtitulo.setBackground(new Color(0, 221, 221));
+		textFieldSubtitulo.setBounds(273, 134, 196, 20);
 		add(textFieldSubtitulo);
 		textFieldSubtitulo.setColumns(10);
 		
 		textFieldTitulo = new JTextField();
-		textFieldTitulo.setBounds(124, 86, 196, 20);
+		textFieldTitulo.setBackground(new Color(0, 221, 221));
+		textFieldTitulo.setBounds(273, 96, 196, 20);
 		add(textFieldTitulo);
 		textFieldTitulo.setColumns(10);
 		
 		lblEditora = new JLabel("Editora:");
-		lblEditora.setBounds(28, 163, 59, 14);
+		lblEditora.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEditora.setBounds(173, 177, 59, 14);
 		add(lblEditora);
 		
 		textFieldEditora = new JTextField();
-		textFieldEditora.setBounds(124, 157, 196, 20);
+		textFieldEditora.setBackground(new Color(0, 221, 221));
+		textFieldEditora.setBounds(274, 171, 196, 20);
 		add(textFieldEditora);
 		textFieldEditora.setColumns(10);				
 		
 		lblAutor = new JLabel("Autor:");
-		lblAutor.setBounds(28, 237, 46, 14);
+		lblAutor.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAutor.setBounds(173, 283, 46, 14);
 		add(lblAutor);
 		
-		lblAno = new JLabel("Ano:");
-		lblAno.setBounds(28, 273, 46, 14);
-		add(lblAno);
-		
 		textFieldAutor = new JTextField();
-		textFieldAutor.setBounds(124, 231, 196, 20);
+		textFieldAutor.setBackground(new Color(0, 221, 221));
+		textFieldAutor.setBounds(274, 274, 196, 20);
 		add(textFieldAutor);
 		textFieldAutor.setColumns(10);
 		
-		textFieldAno = new JTextField();
-		textFieldAno.setBounds(124, 267, 196, 20);
-		add(textFieldAno);
-		textFieldAno.setColumns(10);
-		
 		lblAnoPublicacao = new JLabel("Ano Publica\u00E7\u00E3o:");
-		lblAnoPublicacao.setBounds(28, 315, 78, 14);
+		lblAnoPublicacao.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAnoPublicacao.setBounds(173, 316, 101, 14);
 		add(lblAnoPublicacao);
 		
 		textFieldAnoPublicacao = new JTextField();
-		textFieldAnoPublicacao.setBounds(124, 309, 196, 20);
+		textFieldAnoPublicacao.setBackground(new Color(0, 221, 221));
+		textFieldAnoPublicacao.setBounds(274, 311, 196, 20);
 		add(textFieldAnoPublicacao);
 		textFieldAnoPublicacao.setColumns(10);
 		
 		JButton btnNewButton = new JButton("CADASTRAR");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnNewButton.setBackground(new Color(0, 221, 221));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
-				
-//				if(textFieldLogin.getText().isBlank() || textFieldSenha.getText().isBlank()) {					
-//					TelaAlerta alerta = new TelaAlerta("Por Favor, preencha os Campos.");
-//					alerta.setVisible(true);
-//					alerta.setModal(true);					
-//					return;
-//				}
-//				//instanciar um usuario controller
-//				
-//				UsuarioController usuarioController = new UsuarioController();					
-//				UsuarioVO usuarioAutenticado = null;
-//				
-//				//TODO
-//				String login = textFieldLogin.getText();
-//				String senha = textFieldSenha.getText();
-//				usuarioAutenticado = usuarioController.autenticarLoginController(login, senha);
 				
 				LivroController livroController = new LivroController();
 				LivroVO novoLivro = new LivroVO();				
 				novoLivro.setTitulo(textFieldTitulo.getText());
 				novoLivro.setSubTitulo(textFieldSubtitulo.getText());
 				novoLivro.setEditora(textFieldEditora.getText());
-				novoLivro.setIsbn(textFieldIsbn.getText());				
-				//novoLivro.setDtCadastro(textFieldDataCadastro.getText());
+				novoLivro.setIsbn(textFieldIsbn.getText());	
 				novoLivro.setAutor(textFieldAutor.getText());
-				//novoLivro.setAnoPublicacao(textFieldAnoPublicacao.getText());
+				novoLivro.setDtCadastro(dpDataCadastro.getDate());
+				novoLivro.setGenero(textFieldGenero.getText());
+				novoLivro.setAnoPublicacao(Integer.valueOf(textFieldAnoPublicacao.getText()));
+				novoLivro.setQtdLivros(Integer.valueOf(textFieldQtdTotal.getText()));
+				novoLivro.setQtdDisponivel(Integer.valueOf(textFieldQtdTotal.getText()));
 				
-				novoLivro = livroController.inserirNovoLivroController(novoLivro);
-				
-				
+				try {
+					novoLivro = livroController.inserirNovoLivroController(novoLivro);
+				} catch (CamposInvalidosException e1) {
+					TelaAlerta alerta = new TelaAlerta(e1.getMessage());
+					alerta.setVisible(true);
+				}				
 			}
 		});
-		btnNewButton.setBounds(124, 378, 196, 23);
-		add(btnNewButton);
-						
-			
+		btnNewButton.setBounds(274, 436, 196, 23);
+		add(btnNewButton);			
+		
+		JLabel lblGenero = new JLabel("G\u00EAnero:");
+		lblGenero.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblGenero.setBounds(173, 208, 59, 14);
+		add(lblGenero);
+		
+		textFieldGenero = new JTextField();
+		textFieldGenero.setBackground(new Color(0, 221, 221));
+		textFieldGenero.setBounds(274, 205, 196, 20);
+		add(textFieldGenero);
+		textFieldGenero.setColumns(10);
+		
+		textFieldQtdTotal = new JTextField();
+		textFieldQtdTotal.setBackground(new Color(0, 221, 221));
+		textFieldQtdTotal.setBounds(274, 349, 197, 20);
+		add(textFieldQtdTotal);
+		textFieldQtdTotal.setColumns(10);
+		
+		JLabel lblQuantidade = new JLabel("Quantidade:");
+		lblQuantidade.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblQuantidade.setBounds(172, 352, 89, 14);
+		add(lblQuantidade);
 	}
 }

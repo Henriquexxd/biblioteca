@@ -8,29 +8,32 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import com.github.lgooddatepicker.components.DatePicker;
+
+import controller.EmprestimoController;
+import model.vo.EmprestimoVO;
+
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.awt.event.ActionEvent;
 
 public class PainelEmprestimoConsultar extends JPanel {
+	private JLabel lblConsultarEmprestimo;
+	private JTable tableEmprestimo;
+	private JTextField textFieldConsultarPorIdEmprestimo;
+	private JTextField textFieldConsultarPorIdUsuario;
+	private JLabel lblConsultarPorDataEmprestimo;
 	private JTextField textFieldDataEmprestimo;
-	private JTextField textFieldDataDevolucao;
-	private JTextField textFieldIsbn;
-	private JTextField textFieldEditora;
-	private JTextField textFieldLivro;
-	private JTextField textFieldEmail;
-	private JTextField textFieldTelefone;
-	private JTextField textFieldNome;
-	private JSeparator separator;
-	private JButton btnVoltar;
-	private JLabel lblNewLabel;
-	private JLabel lblLivro;
-	private JLabel lblEditora;
-	private JLabel lblIsbn;	
-	private JLabel lblDataEmprestimo;
-	private JLabel lblDataDevolucao;
-	private JLabel lblNewLabel_6;
-	private JLabel lblNome;
-	private JLabel lblTelefone;
-	private JLabel lblEmail;
-	
+	private JLabel lblConsultarPorIdEmprestimo;
+	private JLabel lblConsultarPorIdUsuario;
+	private JButton btnConsultar;
+	private List<EmprestimoVO> emprestimos;
+	private EmprestimoVO emprestimoPorId;
+	private JButton btnNewButton;
+	private DatePicker dataCadastro;
 
 	/**
 	 * Create the panel.
@@ -39,95 +42,148 @@ public class PainelEmprestimoConsultar extends JPanel {
 		setBackground(new Color(255, 128, 0));
 		setLayout(null);
 		
-		lblNewLabel = new JLabel("Consultar Empr\u00E9stimos");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(157, 26, 217, 38);
-		add(lblNewLabel);
+		lblConsultarEmprestimo = new JLabel("CONSULTAR EMPRÉSTIMO");
+		lblConsultarEmprestimo.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblConsultarEmprestimo.setBounds(231, 24, 248, 38);
+		add(lblConsultarEmprestimo);
 		
-		lblLivro = new JLabel("Livro:");
-		lblLivro.setBounds(39, 88, 46, 14);
-		add(lblLivro);
+		tableEmprestimo = new JTable();
+		tableEmprestimo.setBackground(new Color(0, 221, 221));
+		tableEmprestimo.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		tableEmprestimo.setBounds(10, 172, 665, 186);
+		add(tableEmprestimo);
 		
-		lblEditora = new JLabel("Editora:");
-		lblEditora.setBounds(39, 127, 46, 14);
-		add(lblEditora);
+		lblConsultarPorIdEmprestimo = new JLabel("Consultar por ID_Empr\u00E9stimo:");
+		lblConsultarPorIdEmprestimo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblConsultarPorIdEmprestimo.setBounds(159, 88, 187, 14);
+		add(lblConsultarPorIdEmprestimo);
 		
-		lblIsbn = new JLabel("ISBN:");
-		lblIsbn.setBounds(39, 168, 46, 14);
-		add(lblIsbn);
+		textFieldConsultarPorIdEmprestimo = new JTextField();
+		textFieldConsultarPorIdEmprestimo.setBackground(new Color(0, 221, 221));
+		textFieldConsultarPorIdEmprestimo.setBounds(356, 85, 204, 20);
+		add(textFieldConsultarPorIdEmprestimo);
+		textFieldConsultarPorIdEmprestimo.setColumns(10);
 		
-		separator = new JSeparator();
-		separator.setBounds(10, 249, 484, 7);
-		add(separator);
+		lblConsultarPorIdUsuario = new JLabel("Consultar por ID_Usu\u00E1rio:");
+		lblConsultarPorIdUsuario.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblConsultarPorIdUsuario.setBounds(159, 117, 187, 14);
+		add(lblConsultarPorIdUsuario);
 		
-		lblDataEmprestimo = new JLabel("Data Empr\u00E9stimo:");
-		lblDataEmprestimo.setBounds(39, 205, 97, 14);
-		add(lblDataEmprestimo);
+		textFieldConsultarPorIdUsuario = new JTextField();
+		textFieldConsultarPorIdUsuario.setBackground(new Color(0, 221, 221));
+		textFieldConsultarPorIdUsuario.setBounds(356, 116, 204, 20);
+		add(textFieldConsultarPorIdUsuario);
+		textFieldConsultarPorIdUsuario.setColumns(10);
 		
-		lblDataDevolucao = new JLabel("Data Devolu\u00E7\u00E3o:");
-		lblDataDevolucao.setBounds(262, 205, 87, 14);
-		add(lblDataDevolucao);
+		lblConsultarPorDataEmprestimo = new JLabel("Consultar por Data Empr\u00E9stimo:");
+		lblConsultarPorDataEmprestimo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblConsultarPorDataEmprestimo.setBounds(159, 147, 187, 14);
+		add(lblConsultarPorDataEmprestimo);
 		
-		textFieldDataEmprestimo = new JTextField();
-		textFieldDataEmprestimo.setBounds(132, 202, 120, 20);
-		add(textFieldDataEmprestimo);
-		textFieldDataEmprestimo.setColumns(10);
 		
-		textFieldDataDevolucao = new JTextField();
-		textFieldDataDevolucao.setColumns(10);
-		textFieldDataDevolucao.setBounds(351, 202, 120, 20);
-		add(textFieldDataDevolucao);
+		dataCadastro = new DatePicker();
+		dataCadastro.getComponentToggleCalendarButton().setBackground(new Color(0, 221, 221));
+		dataCadastro.getComponentDateTextField().setBackground(new Color(0, 221, 221));
+		dataCadastro.setBounds(356, 144, 204, 20);
+		add(dataCadastro);
 		
-		textFieldIsbn = new JTextField();
-		textFieldIsbn.setBounds(132, 165, 339, 20);
-		add(textFieldIsbn);
-		textFieldIsbn.setColumns(10);
+		btnConsultar = new JButton("CONSULTAR");
+		btnConsultar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnConsultar.setBackground(new Color(0, 221, 221));
 		
-		textFieldEditora = new JTextField();
-		textFieldEditora.setBounds(132, 124, 339, 20);
-		add(textFieldEditora);
-		textFieldEditora.setColumns(10);
 		
-		textFieldLivro = new JTextField();
-		textFieldLivro.setBounds(132, 85, 339, 20);
-		add(textFieldLivro);
-		textFieldLivro.setColumns(10);
+		btnNewButton = new JButton("LIMPAR TABELA");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton.setBackground(new Color(0, 221, 221));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				this.limparTabela();
+			}
+			private void limparTabela() {
+				tableEmprestimo.setModel(new DefaultTableModel(
+						new Object[][] {
+							{"IDEMP", "IDUSU", "IDEXE", "DTEMPRESTIMO", "DTEMPRESTIMOFIM", "DTEMPRESTIMODEVOL", "DESC", "VALORMULTA"},
+						},
+						new String[] {
+								"IDEMP", "IDUSU", "IDEXE", "DTEMPRESTIMO", "DTEMPRESTIMOFIM", "DTEMPRESTIMODEVOL", "DESC", "VALORMULTA"
+						}
+					));
+					tableEmprestimo.getColumnModel().getColumn(0).setPreferredWidth(35);
+					tableEmprestimo.getColumnModel().getColumn(1).setPreferredWidth(35);
+					tableEmprestimo.getColumnModel().getColumn(2).setPreferredWidth(35);
+			}
+		});
+		btnNewButton.setBounds(231, 473, 232, 23);
+		add(btnNewButton);
 		
-		lblNewLabel_6 = new JLabel("Locat\u00E1rio");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_6.setBounds(216, 267, 113, 27);
-		add(lblNewLabel_6);
-		
-		lblNome = new JLabel("Nome:");
-		lblNome.setBounds(39, 300, 46, 14);
-		add(lblNome);
-		
-		lblTelefone = new JLabel("Telefone:");
-		lblTelefone.setBounds(39, 339, 46, 14);
-		add(lblTelefone);
-		
-		lblEmail = new JLabel("E-mail:");
-		lblEmail.setBounds(39, 380, 46, 14);
-		add(lblEmail);
-		
-		btnVoltar = new JButton("VOLTAR");
-		btnVoltar.setBounds(132, 405, 339, 23);
-		add(btnVoltar);
-		
-		textFieldEmail = new JTextField();
-		textFieldEmail.setBounds(132, 377, 339, 20);
-		add(textFieldEmail);
-		textFieldEmail.setColumns(10);
-		
-		textFieldTelefone = new JTextField();
-		textFieldTelefone.setBounds(132, 339, 339, 20);
-		add(textFieldTelefone);
-		textFieldTelefone.setColumns(10);
-		
-		textFieldNome = new JTextField();
-		textFieldNome.setBounds(132, 300, 339, 20);
-		add(textFieldNome);
-		textFieldNome.setColumns(10);
+		btnConsultar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				EmprestimoController emprestimoController = new EmprestimoController();
+					//CONSULTAR TODOS EMPRESTIMOS
+					if(textFieldConsultarPorIdEmprestimo.getText().isBlank() 
+							&& textFieldConsultarPorIdUsuario.getText().isBlank()
+							&& dataCadastro.getText().isBlank()) {
+						emprestimos = emprestimoController.consultarTodosEmprestimos(); 
+						atualizarTabela();
+					}
+					//CONSULTAR POR IDEMPRESTIMO
+					if(!textFieldConsultarPorIdEmprestimo.getText().isBlank() 
+							&& textFieldConsultarPorIdUsuario.getText().isBlank()
+							&& dataCadastro.getText().isBlank()) {
+						String idEmprestimo = textFieldConsultarPorIdEmprestimo.getText();
+						int idEmprestimoConvertido = Integer.parseInt(idEmprestimo);
+						emprestimoPorId = emprestimoController.consultarEmprestimosPorIdEmprestimo(idEmprestimoConvertido); 
+						atualizarTabela();						
+					}
+					
+				
+				
+			}
+
+			private void atualizarTabela() {
+				this.limparTabela();
+				
+				DefaultTableModel model = (DefaultTableModel)tableEmprestimo.getModel();
+				for(EmprestimoVO emprestimo : emprestimos) {
+					Object[] novaLinhaTabela = new Object[8];
+
+				novaLinhaTabela[0] = emprestimo.getIdEmprestimo();
+				novaLinhaTabela[1] = emprestimo.getUsuarioVO().getIdUsuario();
+				novaLinhaTabela[2] = emprestimo.getCopiaLivroVO().getIdExemplares();
+				novaLinhaTabela[3] = emprestimo.getDtEmprestimoInicio();
+				novaLinhaTabela[4] = emprestimo.getDtEmprestimoFim();
+				novaLinhaTabela[5] = emprestimo.getDtDevolucao();
+				novaLinhaTabela[6] = emprestimo.getDescricao();				
+				novaLinhaTabela[7] = emprestimo.getValorMulta();
+				
+				model.addRow(novaLinhaTabela);	
+				}
+			}
+
+			private void limparTabela() {
+				tableEmprestimo.setModel(new DefaultTableModel(
+						new Object[][] {
+							{"IDEMP", "IDUSU", "IDEXE", "DTEMPRESTIMO", "DTEMPRESTIMOFIM", "DTEMPRESTIMODEVOL", "DESC", "VALORMULTA"},
+						},
+						new String[] {
+								"IDEMP", "IDUSU", "IDEXE", "DTEMPRESTIMO", "DTEMPRESTIMOFIM", "DTEMPRESTIMODEVOL", "DESC", "VALORMULTA"
+						}
+					));
+					tableEmprestimo.getColumnModel().getColumn(0).setPreferredWidth(35);
+					tableEmprestimo.getColumnModel().getColumn(1).setPreferredWidth(35);
+					tableEmprestimo.getColumnModel().getColumn(2).setPreferredWidth(35);
+			}
+		});
+		btnConsultar.setBounds(231, 420, 232, 23);
+		add(btnConsultar);
 
 	}
 }

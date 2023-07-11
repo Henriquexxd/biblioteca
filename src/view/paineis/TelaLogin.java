@@ -3,6 +3,7 @@ package view.paineis;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +16,7 @@ import controller.UsuarioController;
 import model.bo.UsuarioBO;
 import model.vo.UsuarioVO;
 import view.MenuPrincipal;
+import javax.swing.JPasswordField;
 
 public class TelaLogin extends JFrame {
 	private JTextField textFieldLogin;
@@ -64,17 +66,22 @@ public class TelaLogin extends JFrame {
 		getContentPane().add(lblSenha);
 		
 		textFieldLogin = new JTextField();
+		textFieldLogin.setBackground(new Color(0, 221, 221));
 		textFieldLogin.setBounds(150, 76, 130, 20);
 		getContentPane().add(textFieldLogin);
 		textFieldLogin.setColumns(10);
 		
-		textFieldSenha = new JTextField();
+		textFieldSenha = new JPasswordField();
+		textFieldSenha.setBackground(new Color(0, 221, 221));
 		textFieldSenha.setBounds(150, 128, 130, 20);
 		getContentPane().add(textFieldSenha);
 		textFieldSenha.setColumns(10);
 		
 		btnEntrar = new JButton("ENTRAR");
+		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnEntrar.addActionListener(new ActionListener() {
+			 
+
 			public void actionPerformed(ActionEvent e) {
 				
 				if(textFieldLogin.getText().isBlank() || textFieldSenha.getText().isBlank()) {					
@@ -87,16 +94,23 @@ public class TelaLogin extends JFrame {
 				
 				UsuarioController usuarioController = new UsuarioController();					
 				UsuarioVO usuarioAutenticado = null;
-				
-				//TODO
+			
 				String login = textFieldLogin.getText();
 				String senha = textFieldSenha.getText();
 				usuarioAutenticado = usuarioController.autenticarLoginController(login, senha);
-					
+					if(usuarioAutenticado != null) {					
 					MenuPrincipal menu = new MenuPrincipal(usuarioAutenticado);
 					menu.setVisible(true);
 					dispose();
-					String nome = textFieldLogin.getText();
+					TelaAlerta alerta = new TelaAlerta("Usuário Logado com sucesso. Perfil: [" +usuarioAutenticado.getTipoUsuario().toString()+"]");
+					alerta.setVisible(true);
+					alerta.setModal(true);	
+					}else {
+						TelaAlerta alerta = new TelaAlerta("Usuário ou senha inválidos.");
+						alerta.setVisible(true);
+						alerta.setModal(true);					
+						return;
+					}
 						
 				
 			}
@@ -105,6 +119,7 @@ public class TelaLogin extends JFrame {
 		getContentPane().add(btnEntrar);
 		
 		btnSair = new JButton("SAIR");
+		btnSair.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);

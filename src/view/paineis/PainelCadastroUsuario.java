@@ -7,10 +7,27 @@ import java.awt.Component;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
+
+import com.github.lgooddatepicker.components.DatePicker;
+
+import controller.UsuarioController;
+import exception.CamposInvalidosException;
+import model.vo.EnderecoVO;
+import model.vo.TipoUsuarioVO;
+import model.vo.UsuarioVO;
+
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JSeparator;
+import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.awt.event.ActionEvent;
 
 public class PainelCadastroUsuario extends JPanel {
+	private DatePicker dataCadastro;
 	private JTextField textFieldDataCadastro;
 	private JTextField textFieldLogin;
 	private JTextField textFieldSenha;
@@ -39,151 +56,229 @@ public class PainelCadastroUsuario extends JPanel {
 	private JLabel lblRua;
 	private Component lblNumero;
 	private JLabel lblPais;
-	private JButton btnCadastrar;
 	private JSeparator separator;
+	private MaskFormatter mascaraCpf;
+	private MaskFormatter mascaraTelefone;
+	private MaskFormatter mascaraCep;
+	private JRadioButton rdbtnAdministrador;
 
 	/**
 	 * Create the panel.
+	 * @throws ParseException 
 	 */
-	public PainelCadastroUsuario() {
+	public PainelCadastroUsuario() throws ParseException {
 		setBackground(new Color(255, 128, 0));
 		setForeground(new Color(128, 128, 64));
 		setLayout(null);
 
-		lblNewLabel = new JLabel("Cadastro de Usu\u00E1rio");
+		lblNewLabel = new JLabel("CADASTRO DE USU\u00C1RIO");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(146, 22, 194, 30);
+		lblNewLabel.setBounds(246, 24, 230, 30);
 		add(lblNewLabel);
 
 		lblNome = new JLabel("Nome:");
-		lblNome.setBounds(31, 72, 88, 14);
+		lblNome.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNome.setBounds(185, 72, 88, 14);
 		add(lblNome);
 
 		lblCpf = new JLabel("CPF:");
-		lblCpf.setBounds(31, 105, 88, 14);
+		lblCpf.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblCpf.setBounds(185, 105, 88, 14);
 		add(lblCpf);
 
 		lblTelefone = new JLabel("Telefone:");
-		lblTelefone.setBounds(31, 140, 88, 14);
+		lblTelefone.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblTelefone.setBounds(185, 140, 88, 14);
 		add(lblTelefone);
 
 		lblDataCadastro = new JLabel("Data Cadastro:");
-		lblDataCadastro.setBounds(31, 171, 88, 14);
+		lblDataCadastro.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblDataCadastro.setBounds(185, 171, 88, 14);
 		add(lblDataCadastro);
 
 		lblLogin = new JLabel("Login:");
-		lblLogin.setBounds(31, 203, 88, 14);
+		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblLogin.setBounds(185, 201, 88, 14);
 		add(lblLogin);
 
 		lblSenha = new JLabel("Senha:");
-		lblSenha.setBounds(31, 233, 88, 14);
+		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblSenha.setBounds(185, 231, 88, 14);
 		add(lblSenha);
 
-		textFieldDataCadastro = new JTextField();
-		textFieldDataCadastro.setBounds(118, 166, 204, 20);
-		add(textFieldDataCadastro);
-		textFieldDataCadastro.setColumns(10);
+		dataCadastro = new DatePicker();
+		dataCadastro.getComponentToggleCalendarButton().setBackground(new Color(0, 221, 221));
+		dataCadastro.getComponentDateTextField().setBackground(new Color(0, 221, 221));
+		dataCadastro.setBounds(272, 166, 204, 20);
+		add(dataCadastro);
 
 		textFieldLogin = new JTextField();
-		textFieldLogin.setBounds(118, 198, 204, 20);
+		textFieldLogin.setBackground(new Color(0, 221, 221));
+		textFieldLogin.setBounds(272, 196, 204, 20);
 		add(textFieldLogin);
 		textFieldLogin.setColumns(10);
 
 		textFieldSenha = new JTextField();
-		textFieldSenha.setBounds(118, 230, 204, 20);
+		textFieldSenha.setBackground(new Color(0, 221, 221));
+		textFieldSenha.setBounds(272, 228, 204, 20);
 		add(textFieldSenha);
 		textFieldSenha.setColumns(10);
-
-		textFieldTelefone = new JTextField();
-		textFieldTelefone.setBounds(118, 133, 204, 20);
+		
+		mascaraTelefone = new MaskFormatter("(##)#####-####");
+		mascaraTelefone.setValueContainsLiteralCharacters(false);
+		textFieldTelefone = new JFormattedTextField(mascaraTelefone);
+		textFieldTelefone.setBackground(new Color(0, 221, 221));
+		textFieldTelefone.setBounds(272, 133, 204, 20);
 		add(textFieldTelefone);
 		textFieldTelefone.setColumns(10);
-
-		textFieldCpf = new JTextField();
-		textFieldCpf.setBounds(118, 100, 204, 20);
+		
+		
+		mascaraCpf = new MaskFormatter("###.###.###-##");
+		mascaraCpf.setValueContainsLiteralCharacters(false);
+		textFieldCpf = new JFormattedTextField(mascaraCpf);
+		textFieldCpf.setBackground(new Color(0, 221, 221));
+		textFieldCpf.setBounds(272, 100, 204, 20);
 		add(textFieldCpf);
 		textFieldCpf.setColumns(10);
 
 		textFieldNome = new JTextField();
-		textFieldNome.setBounds(118, 69, 204, 20);
+		textFieldNome.setBackground(new Color(0, 221, 221));
+		textFieldNome.setBounds(272, 69, 204, 20);
 		add(textFieldNome);
 		textFieldNome.setColumns(10);
-
-		btnCadastrar = new JButton("CADASTRAR");
-		btnCadastrar.setBounds(118, 557, 204, 23);
-		add(btnCadastrar);
 		
 		separator = new JSeparator();
-		separator.setBounds(10, 261, 437, 2);
+		separator.setBounds(20, 284, 650, 9);
 		add(separator);
 		
-		lblNewLabel_1 = new JLabel("Endere\u00E7o");
+		lblNewLabel_1 = new JLabel("CADASTRO ENDERE\u00C7O");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(175, 272, 155, 20);
+		lblNewLabel_1.setBounds(246, 295, 230, 20);
 		add(lblNewLabel_1);
 		
 		lblEstado = new JLabel("Estado:");
-		lblEstado.setBounds(33, 346, 56, 14);
+		lblEstado.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEstado.setBounds(185, 370, 56, 14);
 		add(lblEstado);
 		
 		lblCidade = new JLabel("Cidade:");
-		lblCidade.setBounds(31, 382, 58, 14);
+		lblCidade.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblCidade.setBounds(185, 406, 58, 14);
 		add(lblCidade);
 		
 		lblBairro = new JLabel("Bairro:");
-		lblBairro.setBounds(33, 417, 56, 14);
+		lblBairro.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblBairro.setBounds(185, 441, 56, 14);
 		add(lblBairro);
 		
 		lblCep = new JLabel("CEP:");
-		lblCep.setBounds(33, 452, 56, 14);
+		lblCep.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblCep.setBounds(185, 476, 56, 14);
 		add(lblCep);
 		
 		lblRua = new JLabel("Rua:");
-		lblRua.setBounds(33, 490, 56, 14);
+		lblRua.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblRua.setBounds(185, 514, 56, 14);
 		add(lblRua);
 		
 		lblNumero = new JLabel("N\u00FAmero:");
-		lblNumero.setBounds(31, 527, 58, 14);
+		lblNumero.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNumero.setBounds(185, 551, 58, 14);
 		add(lblNumero);
 		
 		textFieldEstado = new JTextField();
-		textFieldEstado.setBounds(119, 345, 203, 20);
+		textFieldEstado.setBackground(new Color(0, 221, 221));
+		textFieldEstado.setBounds(272, 369, 203, 20);
 		add(textFieldEstado);
 		textFieldEstado.setColumns(10);
 		
 		textFieldCidade = new JTextField();
-		textFieldCidade.setBounds(119, 381, 203, 20);
+		textFieldCidade.setBackground(new Color(0, 221, 221));
+		textFieldCidade.setBounds(272, 405, 203, 20);
 		add(textFieldCidade);
 		textFieldCidade.setColumns(10);
 		
 		textFieldBairro = new JTextField();
-		textFieldBairro.setBounds(119, 416, 203, 20);
+		textFieldBairro.setBackground(new Color(0, 221, 221));
+		textFieldBairro.setBounds(272, 440, 203, 20);
 		add(textFieldBairro);
 		textFieldBairro.setColumns(10);
 		
-		textFieldCep = new JTextField();
-		textFieldCep.setBounds(119, 451, 203, 20);
+		mascaraCep = new MaskFormatter("#####-###");
+		mascaraCep.setValueContainsLiteralCharacters(false);
+		textFieldCep = new JFormattedTextField(mascaraCep);
+		textFieldCep.setBackground(new Color(0, 221, 221));
+		textFieldCep.setBounds(272, 475, 203, 20);
 		add(textFieldCep);
 		textFieldCep.setColumns(10);
 		
 		textFieldRua = new JTextField();
-		textFieldRua.setBounds(119, 489, 203, 20);
+		textFieldRua.setBackground(new Color(0, 221, 221));
+		textFieldRua.setBounds(272, 513, 203, 20);
 		add(textFieldRua);
 		textFieldRua.setColumns(10);
 		
 		textFieldNumero = new JTextField();
-		textFieldNumero.setBounds(119, 526, 203, 20);
+		textFieldNumero.setBackground(new Color(0, 221, 221));
+		textFieldNumero.setBounds(272, 550, 203, 20);
 		add(textFieldNumero);
 		textFieldNumero.setColumns(10);
 		
-		lblPais = new JLabel("Pais");
-		lblPais.setBounds(31, 309, 46, 14);
+		lblPais = new JLabel("Pais:");
+		lblPais.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblPais.setBounds(185, 332, 46, 14);
 		add(lblPais);
 		
 		textFieldPais = new JTextField();
-		textFieldPais.setBounds(118, 306, 204, 20);
+		textFieldPais.setBackground(new Color(0, 221, 221));
+		textFieldPais.setBounds(272, 329, 204, 20);
 		add(textFieldPais);
 		textFieldPais.setColumns(10);
+		
+		rdbtnAdministrador = new JRadioButton("ADMINISTRADOR");
+		rdbtnAdministrador.setFont(new Font("Tahoma", Font.BOLD, 11));
+		rdbtnAdministrador.setForeground(new Color(64, 0, 0));
+		rdbtnAdministrador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		rdbtnAdministrador.setBackground(new Color(0, 221, 221));
+		rdbtnAdministrador.setBounds(313, 257, 125, 23);
+		add(rdbtnAdministrador);
+		
+		JButton btnCadastrar = new JButton("CADASTRAR");
+		btnCadastrar.setBackground(new Color(0, 221, 221));
+		btnCadastrar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UsuarioController usuarioController = new UsuarioController();
+				EnderecoController enderecoController = new EnderecoController();
+				UsuarioVO novoUsuario = new UsuarioVO();
+				
+				String cpfSemMascara = textFieldCpf.getText()
+						.replace(".", "").replace("-", "");
+				String telefoneSemMascara = textFieldTelefone.getText()
+						.replace("(", "").replace("-", "").replace(")", "");
+				String cepSemMascara = textFieldCep.getText().replace("-", "");
+				
+				novoUsuario.setNome(textFieldNome.getText());
+				novoUsuario.setCpf(cpfSemMascara);
+				novoUsuario.setTelefone(telefoneSemMascara);
+				novoUsuario.setDtCadastro(dataCadastro.getDate());
+				novoUsuario.setLogin(textFieldLogin.getText());
+				novoUsuario.setSenha(textFieldSenha.getText());
+				
+				try {
+					novoUsuario = usuarioController.inserirNovoUsuarioController(novoUsuario);
+				} catch (CamposInvalidosException e1) {
+					TelaAlerta alerta = new TelaAlerta("erro: " +e1.getMessage());
+					alerta.setVisible(true);
+				}
+			}
+		});
+		btnCadastrar.setBounds(272, 584, 204, 23);
+		add(btnCadastrar);
 
 	}
 }

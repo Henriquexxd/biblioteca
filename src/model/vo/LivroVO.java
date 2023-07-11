@@ -5,48 +5,65 @@ import java.time.LocalDate;
 
 public class LivroVO {
 	
-	private int idGenero;
 	private int idLivro;
+	private int anoPublicacao;
 	private String titulo;
 	private String subTitulo;
 	private String editora;
+	private String genero;
 	private String isbn;
-	private LocalDate dtCadastro;
 	private String autor;
-	private LocalDate anoPublicacao;
+	private int qtdLivros;
+	private int qtdDisponivel;
+	private LocalDate dtCadastro;
 	private EditoraVO editoraVO;
-	private GeneroVO generoVO;	
+	private GeneroVO generoVO;
 	
 	
-	public LivroVO(int idGenero, int idLivro, String titulo, String subTitulo, String editora, String isbn,
-			LocalDate dtCadastro, String autor, LocalDate anoPublicacao, EditoraVO editoraVO, GeneroVO generoVO) {
+
+	
+	public LivroVO(int idLivro, int anoPublicacao, String titulo, String subTitulo, String editora, String genero,
+			String isbn, String autor, int qtdLivros, int qtdDisponivel, LocalDate dtCadastro, EditoraVO editoraVO,
+			GeneroVO generoVO) {
 		super();
-		this.idGenero = idGenero;
 		this.idLivro = idLivro;
+		this.anoPublicacao = anoPublicacao;
 		this.titulo = titulo;
 		this.subTitulo = subTitulo;
 		this.editora = editora;
+		this.genero = genero;
 		this.isbn = isbn;
-		this.dtCadastro = dtCadastro;
 		this.autor = autor;
-		this.anoPublicacao = anoPublicacao;
+		this.qtdLivros = qtdLivros;
+		this.qtdDisponivel = qtdDisponivel;
+		this.dtCadastro = dtCadastro;
 		this.editoraVO = editoraVO;
 		this.generoVO = generoVO;
 	}
-	
+
+
 	public LivroVO() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
+	}	
 	
 	
-	
-	public int getIdGenero() {
-		return idGenero;
+	public int getQtdLivros() {
+		return qtdLivros;
 	}
-	public void setIdGenero(int idGenero) {
-		this.idGenero = idGenero;
+
+	public void setQtdLivros(int qtdLivros) {
+		this.qtdLivros = qtdLivros;
 	}
+
+	public int getQtdDisponivel() {
+		return qtdDisponivel;
+	}
+
+	public void setQtdDisponivel(int qtdDisponivel) {
+		this.qtdDisponivel = qtdDisponivel;
+	}
+
 	public int getIdLivro() {
 		return idLivro;
 	}
@@ -71,6 +88,12 @@ public class LivroVO {
 	public void setEditora(String editora) {
 		this.editora = editora;
 	}
+	public String getGenero() {
+		return genero;
+	}
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
 	public String getIsbn() {
 		return isbn;
 	}
@@ -89,10 +112,10 @@ public class LivroVO {
 	public void setAutor(String autor) {
 		this.autor = autor;
 	}
-	public LocalDate getAnoPublicacao() {
+	public int getAnoPublicacao() {
 		return anoPublicacao;
 	}
-	public void setAnoPublicacao(LocalDate anoPublicacao) {
+	public void setAnoPublicacao(int anoPublicacao) {
 		this.anoPublicacao = anoPublicacao;
 	}
 	public EditoraVO getEditoraVO() {
@@ -107,5 +130,4 @@ public class LivroVO {
 	public void setGeneroVO(GeneroVO generoVO) {
 		this.generoVO = generoVO;
 	}	
-	
 }
