@@ -33,7 +33,7 @@ public class UsuarioBO {
 			throw new CamposInvalidosException("O preenchimento de todos os campos é obrigatório.");
 		}
 		if(novoUsuarioDAO.existeRegistroPorCpf(novoUsuario.getCpf())) {
-			throw new CamposInvalidosException("CPF JA ESTA SENDO USADO PORRA.");
+			throw new CamposInvalidosException("CPF JA ESTA SENDO USADO.");
 		}
 		if(novoUsuarioDAO.existeRegistroPorLogin(novoUsuario.getLogin())) {
 			throw new CamposInvalidosException("Usuário já está sendo usado.");

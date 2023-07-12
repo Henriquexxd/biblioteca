@@ -107,7 +107,7 @@ public class TelaLogin extends JFrame {
 					alerta.setVisible(true);
 					alerta.setModal(true);
 				} else {
-					TelaAlerta alerta = new TelaAlerta("Usuário ou senha inválidos.");
+					TelaAlerta alerta = new TelaAlerta("Usuário ou senha Inválidos.");
 					alerta.setVisible(true);
 					alerta.setModal(true);
 					return;

@@ -117,6 +117,8 @@ public class PainelConsultar extends JPanel {
 		btnSolicitarEmprestimo = new JButton("SOLICITAR EMPR\u00C9STIMO");
 		btnSolicitarEmprestimo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//TODO
 			}
 		});
 		btnSolicitarEmprestimo.setBackground(new Color(0, 221, 221));
