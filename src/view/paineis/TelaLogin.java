@@ -52,73 +52,72 @@ public class TelaLogin extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 439, 299);
-		setLocationRelativeTo(null);		
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
-		
+
 		lblLogin = new JLabel("Login:");
 		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblLogin.setBounds(67, 74, 88, 20);
 		getContentPane().add(lblLogin);
-		
+
 		lblSenha = new JLabel("Senha:");
 		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblSenha.setBounds(67, 126, 88, 20);
 		getContentPane().add(lblSenha);
-		
+
 		textFieldLogin = new JTextField();
 		textFieldLogin.setBackground(new Color(0, 221, 221));
 		textFieldLogin.setBounds(150, 76, 130, 20);
 		getContentPane().add(textFieldLogin);
 		textFieldLogin.setColumns(10);
-		
+
 		textFieldSenha = new JPasswordField();
 		textFieldSenha.setBackground(new Color(0, 221, 221));
 		textFieldSenha.setBounds(150, 128, 130, 20);
 		getContentPane().add(textFieldSenha);
 		textFieldSenha.setColumns(10);
-		
+
 		btnEntrar = new JButton("ENTRAR");
 		btnEntrar.setBackground(new Color(0, 221, 221));
 		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnEntrar.addActionListener(new ActionListener() {
-			 
 
 			public void actionPerformed(ActionEvent e) {
-				
-				if(textFieldLogin.getText().isBlank() || textFieldSenha.getText().isBlank()) {					
+
+				if (textFieldLogin.getText().isBlank() || textFieldSenha.getText().isBlank()) {
 					TelaAlerta alerta = new TelaAlerta("Por Favor, preencha os Campos.");
 					alerta.setVisible(true);
-					alerta.setModal(true);					
+					alerta.setModal(true);
 					return;
 				}
-				//instanciar um usuario controller
-				
-				UsuarioController usuarioController = new UsuarioController();					
+				// instanciar um usuario controller
+
+				UsuarioController usuarioController = new UsuarioController();
 				UsuarioVO usuarioAutenticado = null;
-			
+
 				String login = textFieldLogin.getText();
 				String senha = textFieldSenha.getText();
 				usuarioAutenticado = usuarioController.autenticarLoginController(login, senha);
-					if(usuarioAutenticado != null) {					
+				if (usuarioAutenticado != null) {
 					MenuPrincipal menu = new MenuPrincipal(usuarioAutenticado);
 					menu.setVisible(true);
 					dispose();
-					TelaAlerta alerta = new TelaAlerta("Usuário Logado com sucesso. Perfil: [" +usuarioAutenticado.getTipoUsuario().toString()+"]");
+					TelaAlerta alerta = new TelaAlerta("Usuário Logado com sucesso. Perfil: ["
+							+ usuarioAutenticado.getTipoUsuario().toString() + "]");
 					alerta.setVisible(true);
-					alerta.setModal(true);	
-					}else {
-						TelaAlerta alerta = new TelaAlerta("Usuário ou senha inválidos.");
-						alerta.setVisible(true);
-						alerta.setModal(true);					
-						return;
-					}
-						
-				
+					alerta.setModal(true);
+				} else {
+					TelaAlerta alerta = new TelaAlerta("Usuário ou senha inválidos.");
+					alerta.setVisible(true);
+					alerta.setModal(true);
+					return;
+				}
+
 			}
 		});
 		btnEntrar.setBounds(150, 172, 130, 23);
 		getContentPane().add(btnEntrar);
-		
+
 		btnSair = new JButton("SAIR");
 		btnSair.setBackground(new Color(0, 221, 221));
 		btnSair.setFont(new Font("Tahoma", Font.BOLD, 11));

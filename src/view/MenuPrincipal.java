@@ -76,9 +76,6 @@ public class MenuPrincipal extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuPrincipal.class.getResource("/icons/iconMenuPrincipalBarra.png")));
 		setTitle("Menu Principal - Bem-vindo, " + usuario.getNome() + " (" + usuario.getTipoUsuario().toString() + ")");
 		this.usuarioAutenticado = usuario;
-		if(usuario.getTipoUsuario().toString().equalsIgnoreCase("USUARIO")) {
-			System.out.println("HENRIQUE E BRABO");			
-		}
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 682);		
@@ -272,5 +269,13 @@ public class MenuPrincipal extends JFrame {
 		contentPane.setLayout(null);
 		
 		//TODO verificar as permissoes do usuario autenticado e mostrar / esconder os componenetes
+		if(usuario.getTipoUsuario().toString().equalsIgnoreCase("USUARIO")) {
+			System.out.println("HENRIQUE E BRABO");
+			//this.mntmCadastrarUsuario.hide();
+			 mnCadastro.hide();
+			 mntmConsultarEmprestimo.hide();
+			 mntmRelatorioDeUsuarios.hide();
+			 mnRelatorios.hide();
+		}
 	}
 }

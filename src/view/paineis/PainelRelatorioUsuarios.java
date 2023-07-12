@@ -76,6 +76,16 @@ public class PainelRelatorioUsuarios extends JPanel {
 		textFieldPesquisaCpf.setColumns(10);
 		
 		btnEditar = new JButton("EDITAR");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+				int linhaSelecionadaNaTabela = tableUsuarios.getSelectedRow();
+				UsuarioVO usuarioSelecionado = usuarios.get(linhaSelecionadaNaTabela -1);
+				PainelEditarUsuario painelEditar = new PainelEditarUsuario();
+				
+								
+			}
+		});
 		btnEditar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnEditar.setBackground(new Color(0, 221, 221));
 		btnEditar.setBounds(283, 431, 154, 23);
