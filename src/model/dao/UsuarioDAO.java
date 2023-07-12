@@ -241,6 +241,26 @@ public class UsuarioDAO {
 		return false;
 	}
 
+	public boolean excluir(int idUsuario) {
+		Connection conn = Banco.getConnection();
+		String sql = "DELETE FROM USUARIO WHERE IDUSUARIO = "+idUsuario;
+		Statement stmt = Banco.getStatement(conn);
+		
+		int quantidadeLinhasAfetadas = 0;
+		try {
+			quantidadeLinhasAfetadas = stmt.executeUpdate(sql);
+		}catch(SQLException e) {
+			System.out.println("Erro ao excluir Usuario.");
+			System.out.println("Erro: "+e.getMessage());
+		}
+		boolean excluiu = quantidadeLinhasAfetadas >0;
+		if(excluiu) {
+			EnderecoDAO enderecoDAO = new EnderecoDAO();
+			enderecoDAO.excluirEndereco(idUsuario);
+		}
+		return excluiu;
+	}
+
 
 	
 		

@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import exception.CamposInvalidosException;
+import exception.ClienteComEnderecoException;
 import model.bo.UsuarioBO;
 import model.vo.UsuarioVO;
 import view.paineis.TelaAlerta;
@@ -31,6 +32,13 @@ public class UsuarioController {
 	public List<UsuarioVO> consultarTodosUsuarios() {
 		UsuarioBO usuarioBO = new UsuarioBO();
 		return usuarioBO.consultarTodosUsuarios();
+	}
+
+	public boolean excluir(int idUsuario)throws ClienteComEnderecoException {
+		
+		return UsuarioBO.excluir(idUsuario);
+
+		
 	}
 
 	

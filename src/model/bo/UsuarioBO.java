@@ -6,6 +6,7 @@ import view.paineis.TelaAlerta;
 import java.util.List;
 
 import exception.CamposInvalidosException;
+import exception.ClienteComEnderecoException;
 import model.dao.UsuarioDAO;
 
 public class UsuarioBO {
@@ -48,8 +49,28 @@ public class UsuarioBO {
 		return usuarioDAO.consultarTodosUsuarios();
 	}
 	
-	public UsuarioVO verificarExistenciaDeLoginBO(String login) {
-		return null;
+//	public UsuarioVO verificarExistenciaDeLoginBO(String login) {
+//		return null;
+//	}
+
+//	public boolean excluirUsuario(int idUsuario)throws ClienteComEnderecoException {
+//		
+//		UsuarioVO usuarioBuscado = consultarUsuarioPorID(idUsuario);
+//		
+//		return UsuarioDAO.excluir(idUsuario);
+//	}
+
+	public static boolean excluir(int idUsuario) throws ClienteComEnderecoException {
+		UsuarioDAO excluirUsuarioDAO = new UsuarioDAO();
+		
+		UsuarioVO usuarioBuscado = excluirUsuarioDAO.consultarUsuarioPorID(idUsuario);
+		
+		if(usuarioBuscado.getEnderecoVO().getIdEndereco() ==0 ) {
+			throw new ClienteComEnderecoException("Usuario possui Endereco");
+			
+		}
+		
+		return excluirUsuarioDAO.excluir(idUsuario);
 	}
 	
 

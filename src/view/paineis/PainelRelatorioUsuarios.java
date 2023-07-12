@@ -8,13 +8,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import controller.UsuarioController;
+import exception.ClienteComEnderecoException;
 import model.vo.UsuarioVO;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PainelRelatorioUsuarios extends JPanel {
 	private JTable tableUsuarios;
@@ -27,6 +31,9 @@ public class PainelRelatorioUsuarios extends JPanel {
 	private JButton btnPesquisar;
 	private JLabel lblPequisaNome;
 	private JButton btnNewButton;
+	UsuarioController usuarioController = new UsuarioController();
+	private UsuarioVO usuarioSelecionado;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -40,6 +47,22 @@ public class PainelRelatorioUsuarios extends JPanel {
 		add(lblRelatorioUsuarios);
 		
 		tableUsuarios = new JTable();
+		tableUsuarios.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int indiceSelecionado = tableUsuarios.getSelectedRow();
+				
+				if(indiceSelecionado >0) {
+					btnExcluir.setEnabled(true);
+					btnEditar.setEnabled(true);
+					usuarioSelecionado = usuarios.get(indiceSelecionado -1);
+				}else {
+					btnExcluir.setEnabled(false);
+					btnEditar.setEnabled(false);
+				}
+				
+			}
+		});
 		tableUsuarios.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null, null, null, null, null},
@@ -92,6 +115,19 @@ public class PainelRelatorioUsuarios extends JPanel {
 		add(btnEditar);
 		
 		btnExcluir = new JButton("EXCLUIR");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					usuarioController.excluir(usuarioSelecionado.getIdUsuario());
+				} catch (ClienteComEnderecoException e1) {
+					TelaAlerta alerta = new TelaAlerta("Erro: " +e1);
+					alerta.setVisible(true);
+				}
+				usuarios = (ArrayList<UsuarioVO>) usuarioController.consultarTodosUsuarios();
+				
+				
+			}
+		});
 		btnExcluir.setBackground(new Color(0, 221, 221));
 		btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnExcluir.setBounds(283, 463, 154, 23);
