@@ -12,4 +12,9 @@ public class EditoraController {
 		return editoraBO.consultarTodasEditoras(consultarTodos);
 	}
 
+	public EditoraVO inserirNovaEditoraController(EditoraVO novaEditora) {
+		EditoraBO editoraBO = new EditoraBO();
+		return editoraBO.inserirNovaEditoraBO(novaEditora);
+	}
+
 }

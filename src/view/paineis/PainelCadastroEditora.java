@@ -9,8 +9,12 @@ import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import com.github.lgooddatepicker.components.DatePicker;
+
 import controller.EditoraController;
+import controller.EnderecoController;
 import model.vo.EditoraVO;
+import model.vo.EnderecoVO;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -20,7 +24,6 @@ import java.text.ParseException;
 import java.awt.event.ActionEvent;
 
 public class PainelCadastroEditora extends JPanel {
-	private JTextField textFieldDataCadastro;
 	private JTextField textFieldNumero;
 	private JTextField textFieldRua;
 	private JTextField textFieldCep;
@@ -49,6 +52,7 @@ public class PainelCadastroEditora extends JPanel {
 	private MaskFormatter mascaraCnpj;
 	private MaskFormatter mascaraTelefone;
 	private MaskFormatter mascaraCep;
+	private DatePicker dataCadastro;
 
 	/**
 	 * Create the panel.
@@ -113,11 +117,12 @@ public class PainelCadastroEditora extends JPanel {
 		lblCep.setBounds(177, 388, 87, 14);
 		add(lblCep);
 		
-		textFieldDataCadastro = new JTextField();
-		textFieldDataCadastro.setBackground(new Color(0, 221, 221));
-		textFieldDataCadastro.setBounds(274, 493, 235, 20);
-		add(textFieldDataCadastro);
-		textFieldDataCadastro.setColumns(10);
+		dataCadastro = new DatePicker();		
+		dataCadastro.getComponentToggleCalendarButton().setForeground(new Color(0, 221, 221));
+		dataCadastro.getComponentDateTextField().setBackground(new Color(0, 221, 221));
+		dataCadastro.setBackground(new Color(0, 221, 221));
+		dataCadastro.setBounds(274, 493, 235, 20);
+		add(dataCadastro);
 		
 		textFieldNumero = new JFormattedTextField();
 		textFieldNumero.setBackground(new Color(0, 221, 221));
@@ -130,14 +135,7 @@ public class PainelCadastroEditora extends JPanel {
 		textFieldRua.setBounds(274, 421, 235, 20);
 		add(textFieldRua);
 		textFieldRua.setColumns(10);
-		
-//		mascaraCpf = new MaskFormatter("###.###.###-##");
-//		mascaraCpf.setValueContainsLiteralCharacters(false);
-//		
-//		txtCpf = new JFormattedTextField(mascaraCpf);
-//		txtCpf.setBounds(85, 60, 300, 20);
-//		frmNovoCliente.getContentPane().add(txtCpf);
-		
+				
 		mascaraCep = new MaskFormatter("#####-###");
 		mascaraCep.setValueContainsLiteralCharacters(false);
 		
@@ -215,14 +213,32 @@ public class PainelCadastroEditora extends JPanel {
 		btnCadastrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//REMOVENDO AS MASCARAS
+				String cnpjSemMascara = textFieldCnpj.getText().replace(".", "").replace("/", "").replace
+						("-", "");
+				String telefoneSemMascara = textFieldTelefone.getText().replace("(", "").replace
+						(")", "").replace("-", "");
+				String cepSemMascara = textFieldCep.getText().replace("-", "");
+				
 				EditoraController editoraController = new EditoraController();
+				EnderecoController enderecoController = new EnderecoController();
 				EditoraVO novaEditora = new EditoraVO();
+				EnderecoVO novoEndereco = new EnderecoVO();
 				//Informacoes da editora
 				novaEditora.setNome(textFieldNomeEditora.getText());
-				novaEditora.setCnpj(textFieldCnpj.getText());
-				novaEditora.setTelefone(textFieldTelefone.getText());
-				//Informacoes do Endereco da Editora
-				
+				novaEditora.setCnpj(cnpjSemMascara);
+				novaEditora.setTelefone(telefoneSemMascara);
+				//Informacoes do endereco da editora
+				novoEndereco.setPais(textFieldPais.getText());
+				novoEndereco.setEstado(textFieldEstado.getText());
+				novoEndereco.setCidade(textFieldCidade.getText());
+				novoEndereco.setBairro(textFieldBairro.getText());
+				novoEndereco.setCep(cepSemMascara);
+				novoEndereco.setRua(textFieldRua.getText());
+				novoEndereco.setNumero(textFieldRua.getText());
+				//SETANDO O ENDERECO DA EDITORA
+				novaEditora.setEnderecoVO(novoEndereco);
+				novaEditora = editoraController.inserirNovaEditoraController(novaEditora);
 			}
 		});
 		btnCadastrar.setBounds(274, 524, 235, 23);

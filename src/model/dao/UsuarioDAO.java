@@ -198,7 +198,6 @@ public class UsuarioDAO {
 		Connection conn = Banco.getConnection();
 		Statement stmt = Banco.getStatement(conn);
 		ResultSet resultado = null;
-		System.out.println(cpf);
 		String query =  "SELECT cpf FROM usuario WHERE cpf = '" + cpf + "'";
 		try {
 			resultado = stmt.executeQuery(query);

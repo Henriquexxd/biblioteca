@@ -97,4 +97,9 @@ public class EnderecoDAO {
 
 	}
 
+	public boolean existeRegistroDeEditoraPorCepENumero(String cep, String numero) {
+		
+		return false;
+	}
+
 }

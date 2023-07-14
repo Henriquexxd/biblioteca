@@ -65,10 +65,11 @@ public class UsuarioBO {
 		
 		UsuarioVO usuarioBuscado = excluirUsuarioDAO.consultarUsuarioPorID(idUsuario);
 		
-		if(usuarioBuscado.getEnderecoVO().getIdEndereco() ==0 ) {
-			throw new ClienteComEnderecoException("Usuario possui Endereco");
-			
-		}
+//		System.out.println(usuarioBuscado.getEnderecoVO().getIdEndereco());
+//		if(usuarioBuscado.getEnderecoVO().getIdEndereco() ==0 ) {
+//			throw new ClienteComEnderecoException("Usuario possui Endereco");
+//			
+//		}
 		
 		return excluirUsuarioDAO.excluir(idUsuario);
 	}

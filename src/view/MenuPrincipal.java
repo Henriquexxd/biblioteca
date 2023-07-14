@@ -71,6 +71,7 @@ public class MenuPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	//public MenuPrincipal() {
 	public MenuPrincipal(UsuarioVO usuario) {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit()
