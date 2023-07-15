@@ -154,4 +154,38 @@ public class EditoraDAO {
 		}
 		return false;
 	}
+
+	public EditoraVO salvar(EditoraVO novaEditora) {
+		String sql = "INSERT INTO editora (idendereco, nome, cnpj, telefone) VALUES (?, ?, ?, ?)";
+
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		PreparedStatement query = Banco.getPreparedStatementWithPk(conn, sql);
+
+		if (novaEditora.getEnderecoVO().getIdEndereco() == 0) {
+			EnderecoDAO enderecoDAO = new EnderecoDAO();
+			EnderecoVO enderecoSalvo = enderecoDAO.inserirNovoEnderecoDAO(novaEditora.getEnderecoVO());
+			novaEditora.setEnderecoVO(enderecoSalvo);
+		}
+		try {
+			query.setInt(1, novaEditora.getEnderecoVO().getIdEndereco());
+			query.setString(2, novaEditora.getNome());
+			query.setString(3, novaEditora.getCnpj());
+			query.setString(4, novaEditora.getTelefone());
+			query.execute();
+			ResultSet resultado = query.getGeneratedKeys();
+
+			if (resultado.next()) {
+				novaEditora.setIdEditora(1);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao inserir nova Editora.");
+			System.out.println("Erro: "+e.getMessage());
+		}finally {
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+
+		return novaEditora;
+	}
 }

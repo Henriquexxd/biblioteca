@@ -68,11 +68,11 @@ public class UsuarioDAO {
 	//-----------------------------------------------------------------------------------------------
 	
 	public UsuarioVO salvar(UsuarioVO novoUsuario) {
-		Connection conn = Banco.getConnection();
-		Statement stmt = Banco.getStatement(conn);
 
 		String sql = "INSERT INTO USUARIO (NOME, CPF, IDENDERECO, IDTIPOUSUARIO, TELEFONE, DTCADASTRO, LOGIN, SENHA)"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
 		PreparedStatement query = Banco.getPreparedStatementWithPk(conn, sql);
 		
 		if(novoUsuario.getEnderecoVO().getIdEndereco() == 0) {

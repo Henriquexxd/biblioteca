@@ -98,7 +98,24 @@ public class EnderecoDAO {
 	}
 
 	public boolean existeRegistroDeEditoraPorCepENumero(String cep, String numero) {
-		
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet resultado = null;
+		System.out.println(cep);
+		System.out.println(numero);
+		String query = "SELECT cep, numero FROM endereco WHERE cep = '" + cep + "' AND numero = '" + numero + "'";
+		try {
+			resultado = stmt.executeQuery(query);
+			if (resultado.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao executar a Query que verifica a existência de um mesmo ENDEREÇO.");
+			System.out.println("Erro: " + e.getMessage());
+			return false;
+		} finally {
+
+		}
 		return false;
 	}
 

@@ -13,6 +13,7 @@ import com.github.lgooddatepicker.components.DatePicker;
 
 import controller.EditoraController;
 import controller.EnderecoController;
+import exception.CamposInvalidosException;
 import model.vo.EditoraVO;
 import model.vo.EnderecoVO;
 
@@ -238,7 +239,13 @@ public class PainelCadastroEditora extends JPanel {
 				novoEndereco.setNumero(textFieldRua.getText());
 				//SETANDO O ENDERECO DA EDITORA
 				novaEditora.setEnderecoVO(novoEndereco);
-				novaEditora = editoraController.inserirNovaEditoraController(novaEditora);
+				try {
+					novaEditora = editoraController.inserirNovaEditoraController(novaEditora);
+				} catch (CamposInvalidosException e1) {
+					e1.printStackTrace();
+					TelaAlerta alerta = new TelaAlerta("erro: "+e1.getMessage());
+					alerta.setVisible(true);
+				}
 			}
 		});
 		btnCadastrar.setBounds(274, 524, 235, 23);
