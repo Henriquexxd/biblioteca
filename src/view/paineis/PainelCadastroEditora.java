@@ -236,16 +236,17 @@ public class PainelCadastroEditora extends JPanel {
 				novoEndereco.setBairro(textFieldBairro.getText());
 				novoEndereco.setCep(cepSemMascara);
 				novoEndereco.setRua(textFieldRua.getText());
-				novoEndereco.setNumero(textFieldRua.getText());
+				novoEndereco.setNumero(textFieldNumero.getText());
 				//SETANDO O ENDERECO DA EDITORA
 				novaEditora.setEnderecoVO(novoEndereco);
 				try {
 					novaEditora = editoraController.inserirNovaEditoraController(novaEditora);
 				} catch (CamposInvalidosException e1) {
-					e1.printStackTrace();
 					TelaAlerta alerta = new TelaAlerta("erro: "+e1.getMessage());
 					alerta.setVisible(true);
 				}
+				TelaAlerta alerta = new TelaAlerta("EDITORA CADASTRADA COM SUCESSO.");
+				alerta.setVisible(true);
 			}
 		});
 		btnCadastrar.setBounds(274, 524, 235, 23);
