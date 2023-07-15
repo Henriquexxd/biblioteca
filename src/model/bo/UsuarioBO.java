@@ -1,5 +1,6 @@
 package model.bo;
 
+import model.vo.EnderecoVO;
 import model.vo.UsuarioVO;
 import view.paineis.TelaAlerta;
 
@@ -7,6 +8,7 @@ import java.util.List;
 
 import exception.CamposInvalidosException;
 import exception.ClienteComEnderecoException;
+import model.dao.EnderecoDAO;
 import model.dao.UsuarioDAO;
 
 public class UsuarioBO {
@@ -48,28 +50,27 @@ public class UsuarioBO {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		return usuarioDAO.consultarTodosUsuarios();
 	}
-	
-//	public UsuarioVO verificarExistenciaDeLoginBO(String login) {
-//		return null;
-//	}
 
-//	public boolean excluirUsuario(int idUsuario)throws ClienteComEnderecoException {
-//		
-//		UsuarioVO usuarioBuscado = consultarUsuarioPorID(idUsuario);
-//		
-//		return UsuarioDAO.excluir(idUsuario);
-//	}
 
 	public static boolean excluir(int idUsuario) throws ClienteComEnderecoException {
 		UsuarioDAO excluirUsuarioDAO = new UsuarioDAO();
+		EnderecoDAO excluirEnderecoDAO = new EnderecoDAO();
 		
 		UsuarioVO usuarioBuscado = excluirUsuarioDAO.consultarUsuarioPorID(idUsuario);
 		
-//		System.out.println(usuarioBuscado.getEnderecoVO().getIdEndereco());
-//		if(usuarioBuscado.getEnderecoVO().getIdEndereco() ==0 ) {
-//			throw new ClienteComEnderecoException("Usuario possui Endereco");
-//			
-//		}
+		//testando o idendereco
+		int idEnderecoUsuario = usuarioBuscado.getEnderecoVO().getIdEndereco();
+		System.out.println(idEnderecoUsuario);
+		// ---------------------
+		
+		boolean idEnderecoUsuarioBuscado = excluirEnderecoDAO.excluirEndereco(idEnderecoUsuario);
+		if(idEnderecoUsuarioBuscado == true) {
+			System.out.println("sou foda");
+		}
+
+		if(usuarioBuscado.getEnderecoVO().getIdEndereco() == 0 ) {
+			throw new ClienteComEnderecoException("Usuario nao possui Endereco");			
+		}
 		
 		return excluirUsuarioDAO.excluir(idUsuario);
 	}

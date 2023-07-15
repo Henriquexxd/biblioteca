@@ -11,10 +11,7 @@ import model.vo.GeneroVO;
 
 public class GeneroDAO {
 
-	public GeneroVO consultarGenero(int idGenero) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	public GeneroVO consultarPorIdGenero(int idGeneroDoLivro) {
 		GeneroVO idGeneroConsultado = null;

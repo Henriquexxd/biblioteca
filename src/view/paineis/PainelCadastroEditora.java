@@ -23,6 +23,8 @@ import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PainelCadastroEditora extends JPanel {
 	private JTextField textFieldNumero;

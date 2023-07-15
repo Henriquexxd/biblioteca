@@ -124,7 +124,7 @@ public class UsuarioDAO {
 				idUsuarioConsultado = converterDeResultSetParaEntidade(resultado);
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro ao buscar o Usuário por ID com ID: +"+idUsuarioConsultado+" \n Causa: "+e.getMessage());
+			System.out.println("Erro ao buscar o Usuário por ID: +"+idUsuarioConsultado+" \n Causa: "+e.getMessage());
 						
 		}finally {
 			Banco.closePreparedStatement(query);
@@ -142,6 +142,14 @@ public class UsuarioDAO {
 		idUsuarioConsultado.setNome(resultado.getString("nome"));
 		idUsuarioConsultado.setCpf(resultado.getString("cpf"));
 		idUsuarioConsultado.setDtCadastro(resultado.getDate("dtcadastro").toLocalDate());
+		
+		
+		int idEnderecoDoUsuario = resultado.getInt("idendereco");
+		EnderecoDAO enderecoDAO = new EnderecoDAO();
+		EnderecoVO enderecoVO = enderecoDAO.consultarPorId(idEnderecoDoUsuario);
+		idUsuarioConsultado.setEnderecoVO(enderecoVO);
+		
+		
 		return idUsuarioConsultado;
 	}
 	//-----------------------------------------------------------------------------------------------

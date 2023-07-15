@@ -83,19 +83,20 @@ public class EnderecoDAO {
 		return novoEndereco;
 	}
 
-	public void excluirEndereco(int idUsuario) {
-		Connection conn = Banco.getConnection();
-		String sql = "DELETE FROM ENDERECO WHERE IDENDERECO= " + idUsuario;
-		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql);
-		try {
-			stmt.setInt(1, idUsuario);
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("Erro ao Excluir Endereco.");
-			System.out.println("Erro: " + e.getMessage());
-		}
-
-	}
+//	public EnderecoVO excluirEndereco(int idUsuario) {
+//		Connection conn = Banco.getConnection();
+//		String sql = "DELETE FROM ENDERECO WHERE IDENDERECO= " + idUsuario;
+//		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql);
+//		try {
+//			stmt.setInt(1, idUsuario);
+//			stmt.executeUpdate();
+//		} catch (SQLException e) {
+//			System.out.println("Erro ao Excluir Endereco.");
+//			System.out.println("Erro: " + e.getMessage());
+//		}
+//		return null;
+//
+//	}
 
 	public boolean existeRegistroDeEditoraPorCepENumero(String cep, String numero) {
 		Connection conn = Banco.getConnection();
@@ -118,5 +119,28 @@ public class EnderecoDAO {
 		}
 		return false;
 	}
+
+	public boolean excluirEndereco(int idEnderecoUsuario) {
+		boolean excluiu = false;
+		Connection conn = Banco.getConnection();
+
+		String sql = "DELETE FROM endereco WHERE IDENDERECO = ? ";
+		PreparedStatement query = Banco.getPreparedStatement(conn, sql);
+		try {
+			query.setInt(1, idEnderecoUsuario);
+			int quantidadeDeLinhasAtualizadas = query.executeUpdate();
+			excluiu = quantidadeDeLinhasAtualizadas > 0;
+		} catch(SQLException e) {
+			System.out.println("Erro ao excluir endereco.");
+			System.out.println("Causa: "+e.getMessage());
+		}finally {
+			Banco.closePreparedStatement(query);
+			Banco.closeConnection(conn);
+		}
+		
+		return excluiu;
+	}
+
+	
 
 }

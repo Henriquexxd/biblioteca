@@ -78,15 +78,9 @@ public class PainelConsultar extends JPanel {
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//if(textFieldConsultarPorAutor.getText().isBlank() && textFieldConsultarPorTitulo.getText().isBlank() && cbConsultarPorGenero == null) {
 					LivroController livroController = new LivroController();
 					livros = livroController.consultarTodosLivros();
 					atualizarTabela();
-				//}
-//				String nomeAutor = textFieldConsultarPorAutor.getText();
-//				LivroController livroController = new LivroController();
-//				livros = livroController.consultarLivroPorAutor(nomeAutor);
-//				atualizarTabela();
 			}
 		});
 		btnConsultar.setBounds(256, 390, 171, 23);
@@ -161,7 +155,7 @@ public class PainelConsultar extends JPanel {
 			novaLinhaTabela[0] = livro.getIdLivro();
 			novaLinhaTabela[1] = livro.getTitulo();
 			novaLinhaTabela[2] = livro.getSubTitulo();
-			novaLinhaTabela[3] = livro.getGeneroVO().getGenero();
+			novaLinhaTabela[3] = livro.getGeneroVO().getIdGenero();
 			novaLinhaTabela[4] = livro.getAutor();
 			novaLinhaTabela[5] = livro.getDtCadastro();
 			
